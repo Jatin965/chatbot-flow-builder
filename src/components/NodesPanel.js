@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react";
 import React from "react";
 
 const NodesPanel = ({ onAddTextNode }) => {
@@ -9,7 +10,8 @@ const NodesPanel = ({ onAddTextNode }) => {
         onDragEnd={onAddTextNode}
         onClick={onAddTextNode}
       >
-        Add Message
+        <Icon icon="humbleicons:chat" height={30} width={30} />
+        <p>Add Message</p>
       </div>
       {/* Future buttons for different node types will go here */}
     </div>

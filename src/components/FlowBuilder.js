@@ -35,6 +35,7 @@ const FlowBuilder = () => {
 
   // Node selection event
   const onNodeClick = useCallback((_, node) => {
+    console.log("Clicked")
     setSelectedNode(node);
   }, []);
 
@@ -68,7 +69,7 @@ const FlowBuilder = () => {
 
   const edgesWithUpdatedTypes = edges.map((edge) => {
     if (edge.sourceHandle) {
-      const edgeType = nodes.find((node) => node.type === "custom").data.selects[
+      const edgeType = nodes.find((node) => node.type === "sendMessage").data.selects[
         edge.sourceHandle
       ];
       edge.type = edgeType;
@@ -115,15 +116,15 @@ const FlowBuilder = () => {
             onConnect={onConnect}
             onNodeClick={onNodeClick}
             onPaneClick={onPaneClick}
+            onElementClick={onNodeClick}
             nodeTypes={nodeTypes}
             fitView
           >
             <Controls />
-            <Background color="#aaa" gap={16} />
           </ReactFlow>
         </div>
 
-        <div className="Panels">
+        <div className="panels">
           {selectedNode ? (
             <SettingsPanel
               selectedNode={selectedNode}
