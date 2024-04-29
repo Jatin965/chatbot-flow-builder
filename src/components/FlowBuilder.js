@@ -14,11 +14,31 @@ import SendMessageNode from "./Sub/SendMessageNode";
 const FlowBuilder = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    []
-  );
   const [selectedNode, setSelectedNode] = useState(null);
+
+  const onConnect = useCallback(
+    (params) => {
+      // Check if there is already an edge from the source handle
+      const existingEdge = edges.find(
+        (e) => e.source === params.source && e.sourceHandle === params.sourceHandle
+      );
+
+      // If there's an existing edge from the source handle, do not add a new edge
+      if (!existingEdge) {
+        setEdges((eds) => addEdge({ ...params, type: "smoothstep" }, eds));
+      } else {
+        alert("Only one edge can originate from a source handle.");
+      }
+    },
+    [edges, setEdges]
+  );
+
+  // Node selection event
+  const onNodeClick = useCallback((_, node) => {
+    setSelectedNode(node);
+  }, []);
+
+  const onPaneClick = () => setSelectedNode(null);
 
   const onAddTextNode = () => {
     const newNode = {
@@ -32,6 +52,19 @@ const FlowBuilder = () => {
     };
     setNodes((nds) => nds.concat(newNode));
   };
+
+  const updateNodeText = useCallback(
+    (text) => {
+      setNodes((nds) =>
+        nds.map((node) =>
+          node.id === selectedNode.id
+            ? { ...node, data: { ...node.data, label: text } }
+            : node
+        )
+      );
+    },
+    [setNodes, selectedNode]
+  );
 
   const edgesWithUpdatedTypes = edges.map((edge) => {
     if (edge.sourceHandle) {
@@ -60,8 +93,10 @@ const FlowBuilder = () => {
   };
 
   const nodeTypes = {
-    sendMessage: SendMessageNode, // Register your custom node component
+    sendMessage: SendMessageNode, // Registered custom node component
   };
+
+  console.log("selected", selectedNode);
 
   return (
     <div className="FlowBuilder">
@@ -78,7 +113,10 @@ const FlowBuilder = () => {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
+            onNodeClick={onNodeClick}
+            onPaneClick={onPaneClick}
             nodeTypes={nodeTypes}
+            fitView
           >
             <Controls />
             <Background color="#aaa" gap={16} />
@@ -87,7 +125,10 @@ const FlowBuilder = () => {
 
         <div className="Panels">
           {selectedNode ? (
-            <SettingsPanel selectedNode={selectedNode} updateNodeText={() => {}} />
+            <SettingsPanel
+              selectedNode={selectedNode}
+              updateNodeText={updateNodeText}
+            />
           ) : (
             <NodesPanel onAddTextNode={onAddTextNode} />
           )}

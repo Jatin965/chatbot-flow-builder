@@ -3,17 +3,13 @@ import React from "react";
 const SettingsPanel = ({ selectedNode, updateNodeText }) => {
   if (!selectedNode) return null;
 
-  const handleInputChange = (event) => {
-    updateNodeText(selectedNode.id, event.target.value);
-  };
-
   return (
     <div>
-      <input
+      <textarea
         type="text"
-        className="SettingsPanel-input"
+        className="settings-panel-input"
         value={selectedNode.data.label}
-        onChange={handleInputChange}
+        onChange={(e) => updateNodeText(e.target.value)}
       />
     </div>
   );

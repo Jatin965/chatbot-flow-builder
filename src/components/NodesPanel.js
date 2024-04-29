@@ -2,10 +2,15 @@ import React from "react";
 
 const NodesPanel = ({ onAddTextNode }) => {
   return (
-    <div>
-      <button className="NodesPanel-button" onClick={onAddTextNode}>
+    <div className="nodes-panel">
+      <div
+        className="nodes-panel-button"
+        draggable
+        onDragEnd={onAddTextNode}
+        onClick={onAddTextNode}
+      >
         Add Message
-      </button>
+      </div>
       {/* Future buttons for different node types will go here */}
     </div>
   );

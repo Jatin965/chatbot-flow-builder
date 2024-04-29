@@ -13,10 +13,6 @@
   color: white;
 }
 
-main {
-  margin: 20px;
-}
-
 /* Custom Node */
 .custom-node {
   border-radius: 8px;
@@ -45,28 +41,27 @@ main {
 .FlowBuilder-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
 }
 
 .FlowBuilder-workspace {
-  flex: 0.8;
+  flex: 0.75;
   height: 80vh;
   width: 90%;
   border-radius: 3px;
-  border: 1.5px solid #212121;
 }
 
 .Panels {
-  flex: 0.2;
+  flex: 0.25;
+  max-width: 100%;
 }
 
 .NodesPanel-container,
 .SettingsPanel-container {
-  width: 400px;
+  width: 350px;
   height: 100%;
   padding: 10px;
   background-color: #f7f7f7;
-  border-right: 1px solid #ddd;
+  border-left: 1px solid #212121;
   position: fixed;
   top: 0;
   left: 0;
@@ -76,6 +71,9 @@ main {
 
 .SaveButton-wrapper {
   text-align: right;
+  background-color: #eee;
+  padding: 10px;
+  padding-right: 100px;
 }
 
 .SaveButton {
@@ -92,24 +90,28 @@ main {
 }
 
 /* Nodes Panel */
-
-.NodesPanel-button {
+.nodes-panel {
+  padding: 20px;
+}
+.nodes-panel-button {
   display: block;
-  width: 100%;
-  padding: 10px;
+  padding: 20px;
+  border-radius: 6px;
+  width: fit-content;
   margin-bottom: 5px;
-  border: 1px solid #ddd;
+  border: 1px solid #0034bb;
   background-color: #fff;
+  color: #0034bb;
   cursor: pointer;
 }
 
-.NodesPanel-button:hover {
-  background-color: #f0f0f0;
+.nodes-panel-button:hover {
+  background: rgba(#0034bb, 0.8);
 }
 
 /* Settings Panel */
 
-.SettingsPanel-input {
+.settings-panel-input {
   width: calc(100% - 20px);
   padding: 10px;
   margin-bottom: 10px;
