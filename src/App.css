@@ -17,6 +17,7 @@
 .custom-node {
   border-radius: 8px;
   width: 250px;
+  height: 100%;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   overflow: hidden;
@@ -57,12 +58,12 @@
 
 /* Flow Builder */
 
-.FlowBuilder-container {
+.flow-builder-container {
   display: flex;
   justify-content: space-between;
 }
 
-.FlowBuilder-workspace {
+.flow-builder-workspace {
   flex: 0.75;
   height: 80vh;
   width: 90%;
@@ -76,38 +77,29 @@
   border-top: 1px solid rgba(33, 33, 33, 0.2);
 }
 
-.NodesPanel-container,
-.SettingsPanel-container {
-  width: 350px;
-  height: 100%;
-  padding: 10px;
-  background-color: #f7f7f7;
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  overflow-y: auto;
-}
-
-.SaveButton-wrapper {
+.save-button-wrapper {
   text-align: right;
   background-color: #eee;
   padding: 10px;
   padding-right: 100px;
 }
 
-.SaveButton {
+.save-button {
   padding: 10px 20px;
-  background-color: #0057ff;
-  color: white;
+  border: 1px solid #0034bb !important;
+  color: #0034bb;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.SaveButton:hover {
-  background-color: #003cbf;
+.save-button:hover {
+  background: transparent;
+}
+
+.react-flow__nodes .selected {
+  outline: 1px solid #0034bb;
+  border-radius: 9px;
 }
 
 /* Nodes Panel */
@@ -137,9 +129,37 @@
 
 /* Settings Panel */
 
+.settings-panel {
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(33, 33, 33, 0.2);
+}
+
+.settings-panel .settings-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(33, 33, 33, 0.2);
+}
+
+.settings-panel .settings-head p {
+  margin: 0;
+  font-size: 14px;
+  color: #212121;
+}
+
+.settings-panel .heading {
+  text-align: left;
+  font-size: 14px;
+  color: #555555;
+  padding: 20px;
+  margin: 0;
+}
+
 .settings-panel-input {
-  width: calc(100% - 20px);
-  padding: 10px;
+  width: calc(100% - 40px);
+  margin: 20px;
   margin-bottom: 10px;
   border: 1px solid #ddd;
+  resize: vertical;
 }

@@ -1,15 +1,17 @@
 import React, { useState, useCallback } from "react";
 import ReactFlow, {
   addEdge,
-  MiniMap,
   Controls,
-  Background,
   useNodesState,
   useEdgesState,
 } from "reactflow";
 import NodesPanel from "./NodesPanel";
 import SettingsPanel from "./SettingsPanel";
 import SendMessageNode from "./Sub/SendMessageNode";
+
+const nodeTypes = {
+  sendMessage: SendMessageNode, // Registered custom node component
+};
 
 const FlowBuilder = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -34,10 +36,13 @@ const FlowBuilder = () => {
   );
 
   // Node selection event
-  const onNodeClick = useCallback((_, node) => {
-    console.log("Clicked")
-    setSelectedNode(node);
-  }, []);
+  const onNodeClick = useCallback(
+    (event, node) => {
+      console.log("Clicked");
+      setSelectedNode(node);
+    },
+    [setSelectedNode]
+  );
 
   const onPaneClick = () => setSelectedNode(null);
 
@@ -58,25 +63,13 @@ const FlowBuilder = () => {
     (text) => {
       setNodes((nds) =>
         nds.map((node) =>
-          node.id === selectedNode.id
-            ? { ...node, data: { ...node.data, label: text } }
-            : node
+          node.id === selectedNode.id ? { ...node, data: { label: text } } : node
         )
       );
+      setSelectedNode({ ...selectedNode, data: { label: text } });
     },
     [setNodes, selectedNode]
   );
-
-  const edgesWithUpdatedTypes = edges.map((edge) => {
-    if (edge.sourceHandle) {
-      const edgeType = nodes.find((node) => node.type === "sendMessage").data.selects[
-        edge.sourceHandle
-      ];
-      edge.type = edgeType;
-    }
-
-    return edge;
-  });
 
   const onSaveFlow = () => {
     const invalidNodes = nodes.filter(
@@ -93,30 +86,23 @@ const FlowBuilder = () => {
     console.log("Flow saved successfully:", { nodes, edges });
   };
 
-  const nodeTypes = {
-    sendMessage: SendMessageNode, // Registered custom node component
-  };
-
-  console.log("selected", selectedNode);
-
   return (
-    <div className="FlowBuilder">
-      <div className="SaveButton-wrapper">
-        <button className="SaveButton" onClick={onSaveFlow}>
+    <div className="flow-builder">
+      <div className="save-button-wrapper">
+        <button className="save-button" onClick={onSaveFlow}>
           Save Flow
         </button>
       </div>
-      <div className="FlowBuilder-container">
-        <div className="FlowBuilder-workspace">
+      <div className="flow-builder-container">
+        <div className="flow-builder-workspace">
           <ReactFlow
             nodes={nodes}
-            edges={edgesWithUpdatedTypes}
+            edges={edges}
+            onNodeClick={onNodeClick}
+            onPaneClick={onPaneClick}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
-            onNodeClick={onNodeClick}
-            onPaneClick={onPaneClick}
-            onElementClick={onNodeClick}
             nodeTypes={nodeTypes}
             fitView
           >
@@ -128,6 +114,7 @@ const FlowBuilder = () => {
           {selectedNode ? (
             <SettingsPanel
               selectedNode={selectedNode}
+              setSelectedNode={setSelectedNode}
               updateNodeText={updateNodeText}
             />
           ) : (

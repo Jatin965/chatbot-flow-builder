@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react";
 // Define your custom node component
 const SendMessageNode = ({ data }) => {
   return (
-    <div className="custom-node">
+    <div className="custom-node" onClick={() => console.log("Clicked Custom")}>
       <div className="node-header">
         <p>
           <Icon icon="humbleicons:chat" height={16} width={16} />
