@@ -84,6 +84,7 @@ const FlowBuilder = () => {
     }
 
     console.log("Flow saved successfully:", { nodes, edges });
+    alert("Flow Saved Successfully!")
   };
 
   return (
