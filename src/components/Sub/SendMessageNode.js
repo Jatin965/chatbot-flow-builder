@@ -1,5 +1,5 @@
 import React from "react";
-import ReactFlow, { Handle, Position } from "reactflow";
+import { Handle, Position } from "reactflow";
 import { Icon } from "@iconify/react";
 
 // Define your custom node component
